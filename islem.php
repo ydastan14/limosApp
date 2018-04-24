@@ -2,32 +2,7 @@
     include 'connect.php';
     ob_start();
     session_start();
-    if(isset($_POST['kullaniciGiris']))
-    {
-        $email = $_POST['email'];
-        $password =  $_POST['password'];
-
-        $kullaniciSor=$conn->prepare("SELECT * FROM kullanici wHERE kullanici_mail=:mail AND kullanici_sifre=:sifre");
-        $kullaniciSor->execute(array(
-            'mail'=> $email,
-            'sifre'=> $password
-
-        ));
-        $say=$kullaniciSor->rowCount();
-        if($say==1) {
-            $_SESSION['kullanici_mail']=$email;
-            header("Location:index.php");
-            exit;
-
-        }
-        else
-        {
-            header("Location:welcome.php?durum=no");
-            exit;
-        }
-
-
-    }
+    
     if(isset($_POST['kullaniciUyeOl']))
     {
         $name=$_POST['name'];
@@ -51,5 +26,31 @@
 
 
     }
+    if(isset($_POST['kullaniciGiris']))
+        {
+            $email = $_POST['email'];
+            $password =  $_POST['password'];
+
+            $kullaniciSor=$conn->prepare("SELECT * FROM kullanici wHERE kullanici_mail=:mail AND kullanici_sifre=:sifre");
+            $kullaniciSor->execute(array(
+                'mail'=> $email,
+                'sifre'=> $password
+
+            ));
+            $say=$kullaniciSor->rowCount();
+            if($say==1) {
+                $_SESSION['kullanici_mail']=$email;
+                header("Location:index.php");
+                exit;
+
+            }
+            else
+            {
+                header("Location:welcome.php?durum=no");
+                exit;
+            }
+
+
+        }
 
 ?>
